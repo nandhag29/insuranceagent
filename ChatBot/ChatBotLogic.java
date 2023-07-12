@@ -1,108 +1,85 @@
 package ChatBot;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class ChatBotLogic {
     private LocalTime time = LocalTime.now();
     private LocalDate date = LocalDate.now();
     private Random random = new Random();
+    private Map<String, String> responses;
+
+    public ChatBotLogic() {
+        responses = new HashMap<>();
+        initializeResponses();
+    }
+
+    private void initializeResponses() {
+        //General
+        responses.put("how are you", getResponse("I'm fine, thanks for asking! How can I assist you?",
+                "I am good, thanks for asking! How can I assist you?", "I am great, thanks for asking! How can I help you?"));
+        responses.put("hi", getResponse("Hello, how can I assist you?", "Hi, how can I assist you?", "Hi, how can I help you?", "Hello, how can I assist you?"));
+        responses.put("hello", getResponse("Hello, how can I assist you?", "Hi, how can I assist you?", "Hi, how can I help you?", "Hello, how can I assist you?"));
+        responses.put("hey", getResponse("Hello, how can I assist you?", "Hi, how can I assist you?", "Hi, how can I help you?", "Hello, how can I assist you?"));
+        responses.put("good morning", "Good morning, how can I help you?");
+        responses.put("good night", "Have a good night!");
+        responses.put("good evening", "Good evening, how can I help you?");
+        responses.put("good noon", "Good afternoon, how can I help you?");
+        responses.put("good afternoon", "Good afternoon, how can I help you?");
+        responses.put("thank", getResponse("You are very welcome!", "My pleasure!", "Of course! Happy to help!"));
+
+        //Scheduling
+        responses.put("time", getTimeString());
+        responses.put("date", getDateString());
+        responses.put("month", getDateString());
+        responses.put("year", getDateString());
+        responses.put("day", getDateString());
+
+    }
 
     public String generateResponse(String message) {
-        if (message.contains("how are you")) {
-            int num = random.nextInt(3);
-            if (num == 0) {
-                return "I'm fine! What about you?";
-            } else if (num == 1) {
-                return "I am good, thanks for asking!";
-            } else {
-                return "I am great, thanks for asking!";
-            }
-        } else if (message.contains("you") && (message.contains("smart") || message.contains("good"))) {
-            return "Thank you!";
-        } else if (message.contains("welcome")) {
-            return "You are so polite. How can I help you?";
-        } else if (message.contains("hi") && message.charAt(0) == 'h' || message.contains("hello")
-                || message.contains("hey")) {
-            int num = random.nextInt(4);
-            if (num == 0) {
-                return "Hii";
-            } else if (num == 1) {
-                return "Hello";
-            } else if (num == 2) {
-                return "Heyy";
-            } else {
-                return "Hello buddy";
-            }
-        } else if (message.contains("by")) {
-            return "Bye, see you soon!";
-        } else if (message.contains("i am good") || message.contains("i am great")
-                || message.contains("i am ") && message.contains("fine")) {
-            return "Good to hear.";
-        } else if (message.contains("thank")) {
-            int num = random.nextInt(4);
-            if (num == 0) {
-                return "Welcome..";
-            } else if (num == 1) {
-                return "My pleasure";
-            } else if (num == 2) {
-                return "Happy to help";
-            } else {
-                return "That's why I'm here for..";
-            }
-        } else if (message.contains("what") && message.contains("name")) {
-            if (message.contains("your")) {
-                return "I'm Bot...";
-            }
-            if (message.contains("my")) {
-                return "Your name is Ajaysinh";
-            }
-        } else if (message.contains("change")) {
-            return "Sorry, I can't change anything...";
-        } else if (message.contains("time")) {
-            String ctime = "";
-            if (time.getHour() > 12) {
-                int hour = time.getHour() - 12;
-                ctime = ctime + hour + ":" + time.getMinute() + ":" + time.getSecond() + " PM";
-            } else {
-                ctime = ctime + time.getHour() + ":" + time.getMinute() + ":" + time.getSecond() + " AM";
-            }
-            return ctime;
-        } else if (message.contains("date") || message.contains("month") || message.contains("year")
-                || message.contains("day")) {
-            String cdate = "";
-            cdate = cdate + date.getDayOfWeek() + "," + date.getDayOfMonth() + " " + date.getMonth() + " "
-                    + date.getYear();
-            return cdate;
-        } else if (message.contains("good morning")) {
-            return "Good morning! Have a nice day!";
-        } else if (message.contains("good night")) {
-            return "Good night! Have nice dreams!";
-        } else if (message.contains("good evening")) {
-            return "Good evening...!";
-        } else if (message.contains("good") && message.contains("noon")) {
-            return "Good Afternoon...!";
-        } else if (message.contains("clear") && (message.contains("screen") || message.contains("chat"))) {
-            return "Wait a few seconds...";
-        } else {
-            try {
-                // Handle other queries or perform a web search
-                // ...
-            } catch (Exception e) {
-                int num = random.nextInt(3);
-                if (num == 0) {
-                    return "Sorry, I can't understand you!";
-                } else if (num == 1) {
-                    return "Sorry, I don't understand";
-                } else {
-                    return "My apologies... I don't understand";
-                }
+        for (String key : responses.keySet()) {
+            if (message.toLowerCase().contains(key.toLowerCase())) {
+                return responses.get(key);
             }
         }
 
-        return "";
+        return getRandomResponse();
     }
 
+    private String getRandomResponse() {
+        int num = random.nextInt(3);
+        if (num == 0) {
+            return "Sorry, I can't understand you!";
+        } else if (num == 1) {
+            return "Sorry, I don't understand";
+        } else {
+            return "My apologies... I don't understand";
+        }
+    }
 
+    private String getResponse(String... options) {
+        int randomIndex = random.nextInt(options.length);
+        return options[randomIndex];
+    }
+
+    private String getTimeString() {
+        String ctime = "";
+        if (time.getHour() > 12) {
+            int hour = time.getHour() - 12;
+            ctime = ctime + hour + ":" + time.getMinute() + ":" + time.getSecond() + " PM";
+        } else {
+            ctime = ctime + time.getHour() + ":" + time.getMinute() + ":" + time.getSecond() + " AM";
+        }
+        return ctime;
+    }
+
+    private String getDateString() {
+        String cdate = "";
+        cdate = cdate + date.getDayOfWeek() + "," + date.getDayOfMonth() + " " + date.getMonth() + " "
+                + date.getYear();
+        return cdate;
+    }
 }

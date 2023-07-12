@@ -1,12 +1,19 @@
 package ChatBot;
 
+import ChatBot.ChatBotLogic;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -14,7 +21,6 @@ import javax.swing.JTextField;
 public class ChatBotGUI extends JFrame implements ActionListener {
     private JTextArea area;
     private JTextField field;
-    private JScrollPane sp;
     private JButton send;
     private ChatBotLogic chatBotLogic;
 
@@ -22,45 +28,50 @@ public class ChatBotGUI extends JFrame implements ActionListener {
         super(title);
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(null);
         setResizable(false);
-        getContentPane().setBackground(Color.CYAN);
-        field = new JTextField();
-        send = new JButton(">");
-        send.setFont(new Font("Serif", Font.BOLD, 25));
-        send.setBackground(Color.WHITE);
-        send.setBounds(735, 520, 50, 35);
-        add(send);
+        getContentPane().setBackground(Color.LIGHT_GRAY);
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = (int) screenSize.getWidth();
+        int screenHeight = (int) screenSize.getHeight();
+        setSize(screenWidth, screenHeight);
+
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBounds(10, 20, screenWidth - 25, screenHeight - 150);
+        add(panel);
 
         // For Text area
         area = new JTextArea();
         area.setEditable(false);
         area.setBackground(Color.WHITE);
-        add(area);
         area.setFont(new Font("Serif", Font.PLAIN, 20));
+        JScrollPane sp = new JScrollPane(area);
+        panel.add(sp, BorderLayout.CENTER);
 
-        // Scrollbar
-        sp = new JScrollPane(area, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        sp.setBounds(10, 20, 775, 470);
-        add(sp);
-
-        // For TextField
-        field.setSize(725, 35);
-        field.setLocation(10, 520);
+        // Text and Enter Button
+        JPanel inputPanel = new JPanel(new FlowLayout());
+        field = new JTextField();
         field.setForeground(Color.BLACK);
         field.setFont(new Font("Serif", Font.BOLD, 25));
-        add(field);
+        field.setPreferredSize(new Dimension(screenWidth - 200, 35));
+        inputPanel.add(field);
 
+        send = new JButton("Enter");
+        send.setFont(new Font("Serif", Font.BOLD, 25));
+        send.setBackground(Color.WHITE);
         send.addActionListener(this);
-        getRootPane().setDefaultButton(send);
+        inputPanel.add(send);
+
+        panel.add(inputPanel, BorderLayout.SOUTH);
 
         chatBotLogic = new ChatBotLogic();
+
+        bot("Hello, user my name is AflacBot with Aflac Business Solutions."); // Initial bot message
     }
 
     public void actionPerformed(ActionEvent e) {
         String message = field.getText().toLowerCase();
-        area.append("You : " + field.getText() + "\n");
+        area.append("You: " + field.getText() + "\n");
         field.setText("");
 
         String response = chatBotLogic.generateResponse(message);
@@ -68,6 +79,10 @@ public class ChatBotGUI extends JFrame implements ActionListener {
     }
 
     public void bot(String message) {
-        area.append("Bot : " + message + "\n");
+        area.append("Bot: " + message + "\n");
+    }
+
+    public static void main(String[] args) {
+        ChatBotGUI chatBotGUI = new ChatBotGUI("Chat Bot");
     }
 }
