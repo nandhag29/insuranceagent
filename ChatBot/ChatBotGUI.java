@@ -1,7 +1,5 @@
 package ChatBot;
 
-import ChatBot.ChatBotLogic;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,9 +17,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class ChatBotGUI extends JFrame implements ActionListener {
-    private JTextArea area;
+    private static JTextArea area;
     private JTextField field;
-    private JButton send;
+    public JButton send;
     private ChatBotLogic chatBotLogic;
 
     public ChatBotGUI(String title) {
@@ -68,6 +66,8 @@ public class ChatBotGUI extends JFrame implements ActionListener {
 
         bot("Hello, user my name is AflacBot with Aflac Business Solutions."); // Initial bot message
         bot("The reason for my message is to schedule some time with you.");
+        bot("I've been able to work with business owners who were frustrated by rising operating costs and wanted to lower their worker's comp and reduce their payroll tax.");
+        bot("If we could meet for 15-minutes I'd like to learn more about you and your company.");
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -79,11 +79,15 @@ public class ChatBotGUI extends JFrame implements ActionListener {
         bot(response);
     }
 
-    public void bot(String message) {
+    public static void bot(String message) {
         area.append("Bot: " + message + "\n");
     }
 
+    public static void bot(int number) {
+        area.append("Bot: " + number + "\n");
+    }
+
     public static void main(String[] args) {
-        ChatBotGUI chatBotGUI = new ChatBotGUI("Chat Bot");
+        new ChatBotGUI("Chat Bot");
     }
 }
