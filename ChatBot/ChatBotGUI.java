@@ -67,6 +67,7 @@ public class ChatBotGUI extends JFrame implements ActionListener {
         chatBotLogic = new ChatBotLogic();
 
         bot("Hello, user my name is AflacBot with Aflac Business Solutions."); // Initial bot message
+        bot("The reason for my message is to schedule some time with you.");
     }
 
     public void actionPerformed(ActionEvent e) {
