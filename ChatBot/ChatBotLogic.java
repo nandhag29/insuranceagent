@@ -50,39 +50,6 @@ public class ChatBotLogic {
 
     }
 
-    /*
-    public String generateResponse(String message) {
-            if (message.toLowerCase().contains("ye") || message.toLowerCase().contains("sure") || message.toLowerCase().contains("maybe") || message.toLowerCase().contains("ok")) {
-                ChatBotGUI.bot("Great, how would " + getDateString() + " at " + getTimeString() + " work for you?");
-
-
-            } else if (message.toLowerCase().contains("no") || message.toLowerCase().contains("nah") || message.toLowerCase().contains("not")) {
-                ChatBotGUI.bot("Hey, real quick, before I go; how many employees do you have?");
-                int number = getIntInput(message);
-                ChatBotGUI.bot(number);
-                ChatBotGUI.bot("Some of the companies I work with tell me that they are saving anywhere from $500 to $1,000 dollars per employee, per year. In your case, high-end, that would be about $" + number * 1000 + " dollars; is that even a big number to you?");
-                        if (message.toLowerCase().contains("ye") || message.toLowerCase().contains("sure") || message.toLowerCase().contains("maybe") || message.toLowerCase().contains("ok")){
-                    } else if (message.toLowerCase().contains("no") || message.toLowerCase().contains("nah") || message.toLowerCase().contains("not")) {
-                        ChatBotGUI.bot("Alright, have a good day! Let me know if you are interested in the future.");
-                    }
-            }
-
-            else {
-                ChatBotGUI.bot("I'm sorry, I do not understand. Please try answering again.");
-            }
-
-
-
-       for (String key : responses.keySet()) {
-
-            if (message.toLowerCase().contains(key.toLowerCase())) {
-                return responses.get(key);
-            }
-        }
-
-        return getRandomResponse();
-}
-        */
 
     public String generateResponse(String message) {
         for (String key : responses.keySet()) {
@@ -109,7 +76,7 @@ public class ChatBotLogic {
         try {
             return Integer.parseInt(message);
         } catch (NumberFormatException e) {
-            return -1; // Return a default value or handle the error case appropriately
+            return -1; 
         }
     }
 

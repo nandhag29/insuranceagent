@@ -38,7 +38,7 @@ public class ChatBotGUI extends JFrame implements ActionListener {
         panel.setBounds(10, 20, screenWidth - 25, screenHeight - 150);
         add(panel);
 
-        // For Text area
+
         area = new JTextArea();
         area.setEditable(false);
         area.setBackground(Color.WHITE);
@@ -46,7 +46,6 @@ public class ChatBotGUI extends JFrame implements ActionListener {
         JScrollPane sp = new JScrollPane(area);
         panel.add(sp, BorderLayout.CENTER);
 
-        // Text and Enter Button
         JPanel inputPanel = new JPanel(new FlowLayout());
         field = new JTextField();
         field.setForeground(Color.BLACK);
